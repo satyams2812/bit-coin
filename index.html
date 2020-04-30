@@ -1,0 +1,143 @@
+<html>
+   <head>
+      <title>Highcharts Tutorial</title>
+      <script src="https://code.highcharts.com/highcharts.js"></script>
+      <script src="https://code.highcharts.com/modules/series-label.js"></script>
+      <script src="https://code.highcharts.com/modules/exporting.js"></script>
+      <script src="https://code.highcharts.com/modules/export-data.js"></script>
+      <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    
+<link rel="stylesheet" href="style.css">
+   </head>
+   
+   <body>
+   
+   
+   
+    <figure class="highcharts-figure">
+        <div id="container"></div>
+        <p class="highcharts-description">
+            
+        </p>
+    </figure>
+    
+        
+    
+
+
+
+
+   </body>
+   
+
+<script>
+var chart;
+ setInterval(function() {
+    var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        
+       var data = JSON.parse(xhttp.responseText);
+                let eur = data.bpi.EUR.rate_float;
+                let gbp = data.bpi.GBP.rate_float;
+                let usd = data.bpi.USD.rate_float;
+            
+                chart.series[0].addPoint([+(new Date()),eur]);
+                chart.series[1].addPoint([+(new Date()),gbp]);
+                chart.series[2].addPoint([+(new Date()),usd]);
+
+
+    }
+};
+xhttp.open("GET", "https://api.coindesk.com/v1/bpi/currentprice.json", true);
+xhttp.send();
+
+
+ },3000)
+
+
+ chart = Highcharts.chart('container', {
+
+title: {
+    text: 'Bit Coin'
+},
+
+subtitle: {
+    text: 'coindesk.com'
+},
+
+yAxis: {
+    title: {
+        text: 'RateFlow'
+    }
+},
+
+xAxis: {
+    type: 'datetime'
+},
+
+legend: {
+    layout: 'vertical',
+    align: 'right',
+    verticalAlign: 'middle'
+},
+
+plotOptions: {
+    series: {
+        label: {
+            connectorAllowed: false
+        },
+        pointStart: 2010
+    }
+},
+
+series: [{
+    name: 'eur',
+    data: []
+}, {
+    name: 'gbp',
+    data: []
+}, {
+    name: 'usd',
+    data: []
+}]
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
